@@ -1,5 +1,5 @@
 {
-  "name": "vinay15/ezcontent-project",
+  "name": "srijanone/ezcontent-project",
   "description": "Project creator for EZ Content Distribution.",
   "type": "composer-plugin",
   "license": "GPL-2.0-or-later",
@@ -18,8 +18,8 @@
     "process-timeout": 0
   },
   "require": {
-    "composer/installers": "^1.2",
-    "cweagans/composer-patches": "^1.6.5",
+    "composer/installers": "^1.9",
+    "cweagans/composer-patches": "^1.6",
     "drupal/core-composer-scaffold": "^9",
     "drupal/core-recommended": "^9",
     "drush/drush": "^10",
