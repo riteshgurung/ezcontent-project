@@ -1,0 +1,25 @@
+services:
+  php:
+    image: tugboatqa/php:7-apache
+    default: true
+    depends:
+      - mysql
+    commands:
+      init:
+        - a2enmod rewrite headers
+        - ln -snf $TUGBOAT_ROOT/docroot $DOCROOT
+        - composer install --optimize-autoloader
+      update:
+        - composer install --optimize-autoloader
+        - php -d memory_limit= vendor/bin/drush site:install ezcontent --db-url=mysql://tugboat:tugboat@mysql/tugboat -site-name='EZ Content' --account-name='srijan' --account-pass='admin12345' --account-mail='admin@example.com' -y
+        - chgrp -R www-data docroot/sites/default/files
+        - chmod 2775 docroot/sites/default/files
+        - chmod -R g+w docroot/sites/default/files
+        - vendor/bin/drush en components -y
+        - vendor/bin/drush upwd admin demo
+      build:
+        - composer install --optimize-autoloader
+        - vendor/bin/drush updatedb -y
+        - vendor/bin/drush cache:rebuild
+  mysql:
+    image: tugboatqa/mysql:5
