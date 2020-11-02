@@ -12,7 +12,7 @@ services:
         - composer install --optimize-autoloader
       update:
         - composer install --optimize-autoloader
-        - php -d memory_limit=256M vendor/bin/drush site:install ezcontent --db-url=mysql://tugboat:tugboat@mysql/tugboat --site-name='EZ Content' --account-name='srijan' --account-pass='admin12345' --account-mail='admin@example.com' -y
+        - php -d memory_limit=256M vendor/bin/drush site:install ezcontent --db-url=mysql://tugboat:tugboat@mysql/tugboat -y
         - php -d memory_limit=256M vendor/bin/drush en ezcontent_demo -y
         - chgrp -R www-data docroot/sites/default/files
         - chmod 2775 docroot/sites/default/files
