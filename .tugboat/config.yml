@@ -8,6 +8,7 @@ services:
       init:
         - a2enmod rewrite headers
         - ln -snf $TUGBOAT_ROOT/docroot $DOCROOT
+        - composer self-update --1
         - composer install --optimize-autoloader
       update:
         - composer install --optimize-autoloader
