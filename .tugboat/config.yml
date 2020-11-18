@@ -13,11 +13,10 @@ services:
       update:
         - composer install --optimize-autoloader
         - php -d memory_limit=256M vendor/bin/drush site:install ezcontent --db-url=mysql://tugboat:tugboat@mysql/tugboat -y
-        - php -d memory_limit=256M vendor/bin/drush en ezcontent_demo -y
         - chgrp -R www-data docroot/sites/default/files
         - chmod 2775 docroot/sites/default/files
         - chmod -R g+w docroot/sites/default/files
-        - vendor/bin/drush en components -y
+        - php -d memory_limit=256 vendor/bin/drush en components ezcontent_demo ezcontent_api -y
         - vendor/bin/drush upwd admin demo
       build:
         - composer install --optimize-autoloader
@@ -25,3 +24,18 @@ services:
         - vendor/bin/drush cache:rebuild
   mysql:
     image: tugboatqa/mysql:5
+  node:
+    image: tugboatqa/node:12
+    expose: 3000
+    depends:
+      - php
+    commands:
+      init:
+        - git clone --branch master --single-branch https://github.com/srijanone/ezcontent-decoupled.git
+        - cp .tugboat/dist/decoupled.env ezcontent-decoupled/.env
+      build: |
+        cd ezcontent-decoupled
+        git pull
+        npm install
+      start:
+        - npm run dev --cwd ezcontent-decoupled &
