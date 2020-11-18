@@ -16,7 +16,7 @@ services:
         - chgrp -R www-data docroot/sites/default/files
         - chmod 2775 docroot/sites/default/files
         - chmod -R g+w docroot/sites/default/files
-        - php -d memory_limit=256 vendor/bin/drush en components ezcontent_demo ezcontent_api -y
+        - php -d memory_limit=256M vendor/bin/drush en components ezcontent_demo ezcontent_api -y
         - vendor/bin/drush upwd admin demo
       build:
         - composer install --optimize-autoloader
